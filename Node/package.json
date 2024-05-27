@@ -1,0 +1,14 @@
+{
+  "name": "youtubedownload",
+  "version": "1.0.0",
+  "description": "Downloading youtube videos",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ytdl-core": "^4.11.5"
+  }
+}
