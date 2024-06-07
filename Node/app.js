@@ -1,34 +1,26 @@
-const ytdl = require('ytdl-core');
-const fs = require('fs');
-const videoUrl = 'https://youtu.be/erEFnY-Lq-c?list=RDMMerEFnY-Lq-c';
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const path = require('path');
+const downloader = require('./controllers/youtubeDownload');
 
-// Get video info from YouTube
-ytdl.getInfo(videoUrl).then((info) => {
-  // Select the video format and quality
-  const format = ytdl.chooseFormat(info.formats, { quality: 'highestvideo', filter: 'audioandvideo', container: 'mp4' });
-  
-  if (!format) {
-    throw new Error('Desired format not found');
-  }
+const port = 3002;
 
-  // Create a sanitized file name for the video
-  const outputFileName = `${info.videoDetails.title.replace(/[\/\\?%*:|"<>]/g, '-')}.${format.container}`;
+app.set('views', path.join(__dirname, 'views'));
 
-  // Create a write stream to save the video file
-  const outputStream = fs.createWriteStream(outputFileName);
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
-  // Download the video file
-  ytdl(videoUrl, { format: format }).pipe(outputStream);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
-  // When the download is complete, show a message
-  outputStream.on('finish', () => {
-    console.log(`Finished downloading: ${outputFileName}`);
-  });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-  outputStream.on('error', (err) => {
-    console.error(`Error writing to the file: ${err.message}`);
-  });
+app.use('/', downloader);
 
-}).catch((err) => {
-  console.error(`Error fetching video info: ${err.message}`);
+// Start the server
+app.listen(port, () => {
+  console.log('Current environment:', process.env.NODE_ENV);
+  console.log(`Server is running at http://localhost:${port}`);
 });
