@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
-const downloader = require('./controllers/youtubeDownload');
+const downloader = require('./controllers/videoDownload');
 
 const port = 3002;
 
