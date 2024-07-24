@@ -3,10 +3,10 @@
 
 <head>
     <%- include('includes/meta.html') %>
-    <script src="/scripts/colourModel.js" defer></script>
+    <script src="/scripts/download.js" defer></script>
+
+    <title>Youtube Downloader</title>
 </head>
-
-
 
 <body>
     <%- include('includes/header.html') %>
@@ -49,7 +49,9 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="inner-cont">
                         <h2>Download Queue</h2>
-                        
+                        <div data-bind="foreach: queue">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
